@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>1 John Greek Vocabulary Drill</title>
+  
+  <!-- Professional Biblical Greek Font for Perfect iPhone Diacritic Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --primary: #1d3557;
+      --accent: #457b9d;
+      --success: #2a9d8f;
+      --error: #e76f51;
+      --warning: #f4a261;
+      --text: #2b2d42;
+      --border: #e9ecef;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 680px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .hidden { display: none !important; }
+
+    .form-group { margin-bottom: 20px; }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .freq-inputs {
+      display: flex;
+      gap: 15px;
+    }
+
+    .freq-inputs div { flex: 1; }
+
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1.1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: var(--accent); }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #fff;
+      background-color: var(--primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:hover { background-color: var(--accent); }
+    .btn:active { transform: scale(0.99); }
+    .btn-secondary { background-color: var(--accent); margin-top: 10px; }
+    .btn-warning { background-color: var(--warning); margin-top: 10px; }
+    .btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+    .btn-outline:hover { background: var(--border); }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+      color: #6c757d;
+    }
+
+    .pause-btn {
+      width: auto;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+    }
+
+    .greek-word {
+      font-family: 'Gentium Plus', 'Times New Roman', serif;
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: var(--primary);
+      text-align: center;
+      margin: 15px 0;
+      line-height: 1.2;
+    }
+
+    .feedback-card {
+      margin: 15px 0;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .feedback-card.correct { background: #e8f5e9; color: var(--success); }
+    .feedback-card.incorrect { background: #ffebee; color: var(--error); }
+
+    .result-status {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .correct-ans {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .details-box {
+      margin-top: 15px;
+      padding: 16px;
+      background: var(--bg-color);
+      border-radius: 10px;
+      border-left: 5px solid var(--accent);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      max-height: 280px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .details-box h4 {
+      color: var(--primary);
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .paradigm-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      font-family: 'Gentium Plus', serif;
+    }
+
+    .paradigm-table th, .paradigm-table td {
+      border: 1px solid var(--border);
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .paradigm-table th {
+      background-color: #e9ecef;
+      color: var(--primary);
+      font-family: -apple-system, sans-serif;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      z-index: 10;
+    }
+
+    .results-score {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 15px 0;
+      color: var(--primary);
+    }
+
+    @media (max-width: 480px) {
+      .app-container { padding: 18px; }
+      .greek-word { font-size: 2.6rem; }
+      .btn { padding: 12px; font-size: 1rem; }
+      .paradigm-table { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <!-- CONFIGURATION SCREEN -->
+  <div id="config-screen">
+    <h1>1 John Greek Vocabulary Drill</h1>
+    <div class="form-group">
+      <label>New Testament Frequency Range (1 - 49)</label>
+      <div class="freq-inputs">
+        <div>
+          <label for="min-freq">Min</label>
+          <input type="number" id="min-freq" value="1" min="1" max="49">
+        </div>
+        <div>
+          <label for="max-freq">Max</label>
+          <input type="number" id="max-freq" value="49" min="1" max="49">
+        </div>
+      </div>
+    </div>
+    <button class="btn" onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen" class="hidden">
+    <div class="status-bar">
+      <span id="progress-text">Word 1 of 10</span>
+      <span id="freq-text">Freq: 49</span>
+      <button class="btn btn-outline pause-btn" onclick="togglePause()">Pause ❚❚</button>
+    </div>
+
+    <div class="greek-word" id="greek-display">φανερόω</div>
+
+    <div class="form-group">
+      <input type="text" id="answer-input" placeholder="Type English translation..." autocomplete="off" autocapitalize="none">
+    </div>
+
+    <button id="submit-btn" class="btn" onclick="checkAnswer()">Submit Answer</button>
+
+    <!-- Feedback Container -->
+    <div id="feedback-area" class="hidden">
+      <div id="feedback-card" class="feedback-card">
+        <div id="result-status" class="result-status"></div>
+        <div id="correct-ans" class="correct-ans"></div>
+      </div>
+
+      <button id="detail-btn" class="btn btn-secondary" onclick="toggleDetails()">Show Grammar Details</button>
+      
+      <div id="details-box" class="details-box hidden"></div>
+
+      <button id="next-btn" class="btn btn-outline" style="margin-top:15px;" onclick="nextWord()">Next Word ➔</button>
+    </div>
+  </div>
+
+  <!-- PAUSE OVERLAY -->
+  <div id="pause-overlay" class="overlay hidden">
+    <h2>Quiz Paused</h2>
+    <button class="btn btn-secondary" style="width:200px; margin-top:20px;" onclick="togglePause()">Resume</button>
+    <button class="btn btn-outline" style="width:200px; margin-top:10px;" onclick="restartToMenu()">Main Menu</button>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="results-screen" class="hidden">
+    <h1>Quiz Completed!</h1>
+    <div id="final-score" class="results-score">8 / 10</div>
+    <p id="error-summary" style="margin-bottom:20px; color:#6c757d;"></p>
+    
+    <button id="retry-errors-btn" class="btn btn-warning hidden" onclick="startQuiz(true)">Practice Missed Words Only</button>
+    <button class="btn btn-outline" style="margin-top:10px;" onclick="restartToMenu()">Main Menu</button>
+  </div>
+
+</div>
+
+<script>
+  // Complete 86 Vocabulary Dataset with Normalized Strings and Full Paradigms
+  const VOCABULARY = [
+    { greek: "φανερόω", english: "I reveal, expose, manifest", freq: 49, type: "verb", details: { principal_parts: ["φανερόω", "φανερώσω", "ἐφανέρωσα", "πεφανέρωκα", "πεφανέρωμαι", "ἐφανερώθην"] } },
+    { 
+      greek: "χρεία, ας, ἡ", english: "need, lack, want, difficulty", freq: 49, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "χρεία", Gen: "χρείας", Dat: "χρείᾳ", Acc: "χρείαν" }, 
+          pl: { Nom: "χρεῖαι", Gen: "χρειῶν", Dat: "χρείαις", Acc: "χρείας" } 
+        } 
+      } 
+    },
+    { greek: "ἔμπροσθεν", english: "in front of, ahead, before", freq: 49, type: "preposition", details: { case_meaning: "+ Genitive: in front of, before" } },
+    { greek: "ποῦ", english: "where", freq: 48, type: "adverb", details: {} },
+    { 
+      greek: "κρίσις, εως, ἡ", english: "judgement, court, right", freq: 47, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "κρίσις", Gen: "κρίσεως", Dat: "κρίσει", Acc: "κρίσιν" }, 
+          pl: { Nom: "κρίσεις", Gen: "κρίσεων", Dat: "κρίσεσι(ν)", Acc: "κρίσεις" } 
+        } 
+      } 
+    },
+    { 
+      greek: "φόβος, ου, ὁ", english: "fear, terror, intimidation", freq: 47, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "φόβος", Gen: "φόβου", Dat: "φόβῳ", Acc: "φόβον" }, 
+          pl: { Nom: "φόβοι", Gen: "φόβων", Dat: "φόβοις", Acc: "φόβους" } 
+        } 
+      } 
+    },
+    { 
+      greek: "ὅμοιος, οἱα, οιον", english: "like, similar, of same nature", freq: 47, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern (2nd M / 1st F / 2nd N)", 
+        cases: { 
+          sg: { Nom: "ὅμοιος, -α, -ον", Gen: "ὁμοίου, -ας, -ου", Dat: "ὁμοίῳ, -ᾳ, -ῳ", Acc: "ὅμοιον, -αν, -ον" },
+          pl: { Nom: "ὅμοιοι, -αι, -α", Gen: "ὁμοίων, -ων, -ων", Dat: "ὁμοίοις, -αις, -οῖς", Acc: "ὅμοιοι, -ας, -α" }
+        } 
+      } 
+    },
+    { greek: "θαυμάζω", english: "I marvel, wonder, am amazed", freq: 43, type: "verb", details: { principal_parts: ["θαυμάζω", "θαυμάσομαι", "ἐθαύμασα", "τεθαύμακα", "τεθαύμασμαι", "ἐθαυμάσθην"] } },
+    { 
+      greek: "σπέρμα, ατος, τό", english: "seed, character, posterity", freq: 42, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "σπέρμα", Gen: "σπέρματος", Dat: "σπέρματι", Acc: "σπέρμα" }, 
+          pl: { Nom: "σπέρματα", Gen: "σπερμάτων", Dat: "σπέρμασι(ν)", Acc: "σπέρματα" } 
+        } 
+      } 
+    },
+    { 
+      greek: "καινός, ή, όν", english: "new, unused, remarkable", freq: 42, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern (2nd M / 1st F / 2nd N)", 
+        cases: { 
+          sg: { Nom: "καινός, -ή, -όν", Gen: "καινοῦ, -ῆς, -οῦ", Dat: "καινῷ, -ῇ, -ῷ", Acc: "καινόν, -ήν, -όν" },
+          pl: { Nom: "καινοί, -αί, -ά", Gen: "καινῶν, -ῶν, -ῶν", Dat: "καινοῖς, -αῖς, -οῖς", Acc: "καινούς, -άς, -ά" }
+        } 
+      } 
+    },
+    { greek: "μισέω", english: "I hate, detest, disfavor", freq: 40, type: "verb", details: { principal_parts: ["μισέω", "μισήσω", "ἐμίσησα", "μεμίσηκα", "μεμίσημαι", "ἐμισήθην"] } },
+    { greek: "πλανάω", english: "I lead astray, deceive", freq: 39, type: "verb", details: { principal_parts: ["πλανάω", "πλανήσω", "ἐπλάνησα", "πεπλάνηκα", "πεπλάνημαι", "ἐπλανήθην"] } },
+    { 
+      greek: "ἐπιθυμία, ας, ἡ", english: "desire, longing, craving, lust", freq: 38, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "ἐπιθυμία", Gen: "ἐπιθυμίας", Dat: "ἐπιθυμίᾳ", Acc: "ἐπιθυμίαν" }, 
+          pl: { Nom: "ἐπιθυμίαι", Gen: "ἐπιθυμιῶν", Dat: "ἐπιθυμίαις", Acc: "ἐπιθυμίας" } 
+        } 
+      } 
+    },
+    { 
+      greek: "διάβολος, ον", english: "devil, adversary, slanderer", freq: 38, type: "adjective / noun", 
+      details: { 
+        declension: "2nd Declension", 
+        cases: { 
+          sg: { Nom: "διάβολος, -ον", Gen: "διαβόλου", Dat: "διαβόλῳ", Acc: "διάβολον" }, 
+          pl: { Nom: "διάβολοι, -α", Gen: "διαβόλων", Dat: "διαβόλοις", Acc: "διαβόλους, -α" } 
+        } 
+      } 
+    },
+    { 
+      greek: "μαρτυρία, ας, ἡ", english: "testimony", freq: 37, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "μαρτυρία", Gen: "μαρτυρίας", Dat: "μαρτυρίᾳ", Acc: "μαρτυρίαν" }, 
+          pl: { Nom: "μαρτυρίαι", Gen: "μαρτυριῶν", Dat: "μαρτυρίαις", Acc: "μαρτυρίας" } 
+        } 
+      } 
+    },
+    { greek: "ἄρτι", english: "now, at once, immediately", freq: 36, type: "adverb", details: {} },
+    { greek: "ὀφείλω", english: "I owe, am indebted", freq: 35, type: "verb", details: { principal_parts: ["ὀφείλω", "ὀφειλήσω", "ὠφείλησα", "ὠφείληκα", "ὠφειλήθην"] } },
+    { greek: "ἀρνέομαι", english: "I refuse, deny, denounce, disown", freq: 33, type: "verb", details: { principal_parts: ["ἀρνέομαι", "ἀρνήσομαι", "ἠρνησάμην", "ἠρνημαι", "ἠρνήθην"] } },
+    { greek: "καθαρίζω", english: "I make clean, cleanse, heal", freq: 33, type: "verb", details: { principal_parts: ["καθαρίζω", "καθαριῶ", "ἐκαθάρισα", "κεκαθάρικα", "κεκαθάρισμαι", "ἐκαθαρίσθην"] } },
+    { 
+      greek: "παρρησία, ας, ἡ", english: "frankness, boldness, fearlessness", freq: 33, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "παρρησία", Gen: "παρρησίας", Dat: "παρρησίᾳ", Acc: "παρρησίαν" },
+          pl: { Nom: "παρρησίαι", Gen: "παρρησιῶν", Dat: "παρρησίαις", Acc: "παρρησίας" }
+        } 
+      } 
+    },
+    { 
+      greek: "σκότος, ους, τό", english: "darkness, gloom", freq: 31, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "σκότος", Gen: "σκότους", Dat: "σκότει", Acc: "σκότος" },
+          pl: { Nom: "σκότη", Gen: "σκοτῶν", Dat: "σκότεσι(ν)", Acc: "σκότη" }
+        } 
+      } 
+    },
+    { greek: "φαίνω", english: "I shine, appear, am apparent", freq: 31, type: "verb", details: { principal_parts: ["φαίνω", "φανῶ", "ἔφηνα", "πέφηνα", "πέφανμαι", "ἐφάνην"] } },
+    { greek: "φυλάσσω", english: "I watch, guard, look out", freq: 31, type: "verb", details: { principal_parts: ["φυλάσσω", "φυλάξω", "ἐφύλαξα", "πεφύλαχα", "πεφύλαγμαι", "ἐφυλάχθην"] } },
+    { 
+      greek: "ἰσχυρός, ά, όν", english: "strong, mighty", freq: 29, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern", 
+        cases: { 
+          sg: { Nom: "ἰσχυρός, -ά, -όν", Gen: "ἰσχυροῦ, -ᾶς, -οῦ", Dat: "ἰσχυρῷ, -ᾷ, -ῷ", Acc: "ἰσχυρόν, -άν, -όν" },
+          pl: { Nom: "ἰσχυροί, -αί, -ά", Gen: "ἰσχυρῶν, -ῶν, -ῶν", Dat: "ἰσχυροῖς, -αῖς, -οῖς", Acc: "ἰσχυρούς, -άς, -ά" }
+        } 
+      } 
+    },
+    { 
+      greek: "ἀληθινός, ή, όν", english: "true, genuine, authentic", freq: 29, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern", 
+        cases: { 
+          sg: { Nom: "ἀληθινός, -ή, -όν", Gen: "ἀληθινοῦ, -ῆς, -οῦ", Dat: "ἀληθινῷ, -ῇ, -ῷ", Acc: "ἀληθινόν, -ήν, -όν" },
+          pl: { Nom: "ἀληθινοί, -αί, -ά", Gen: "ἀληθινῶν, -ῶν, -ῶν", Dat: "ἀληθινοῖς, -αῖς, -οῖς", Acc: "ἀληθινούς, -άς, -ά" }
+        } 
+      } 
+    },
+    { greek: "νικάω", english: "I conquer, overcome, vanquish", freq: 28, type: "verb", details: { principal_parts: ["νικάω", "νικήσω", "ἐνίκησα", "νενίκηκα", "νενίκημαι", "ἐνικήθην"] } },
+    { greek: "ἥκω", english: "I have come, am present", freq: 28, type: "verb", details: { principal_parts: ["ἥκω", "ἥξω", "ἧκα"] } },
+    { greek: "ὁμολογέω", english: "I confess, agree, admit, acknowledge", freq: 26, type: "verb", details: { principal_parts: ["ὁμολογέω", "ὁμολογήσω", "ὡμολόγησα", "ὡμολόγηκα", "ὡμολόγημαι", "ὡμολογήθην"] } },
+    { greek: "οὔπω", english: "not yet", freq: 26, type: "adverb", details: {} },
+    { 
+      greek: "ἀδικία, ας, ἡ", english: "unrighteousness, wickedness, wrongdoing", freq: 25, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "ἀδικία", Gen: "ἀδικίας", Dat: "ἀδικίᾳ", Acc: "ἀδικίαν" },
+          pl: { Nom: "ἀδικίαι", Gen: "ἀδικιῶν", Dat: "ἀδικίαις", Acc: "ἀδικίας" }
+        } 
+      } 
+    },
+    { greek: "κεῖμαι", english: "I recline, am appointed, destined", freq: 24, type: "verb", details: { principal_parts: ["κεῖμαι", "κείσομαι"] } },
+    { 
+      greek: "παρουσία, ας, ἡ", english: "presence, coming, advent", freq: 24, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "παρουσία", Gen: "παρουσίας", Dat: "παρουσίᾳ", Acc: "παρουσίαν" },
+          pl: { Nom: "παρουσίαι", Gen: "παρουσιῶν", Dat: "παρουσίαις", Acc: "παρουσίας" }
+        } 
+      } 
+    },
+    { 
+      greek: "σωτήρ, ῆρος, ὁ", english: "savior, deliverer, preserver", freq: 23, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "σωτήρ", Gen: "σωτῆρος", Dat: "σωτῆρι", Acc: "σωτῆρα" },
+          pl: { Nom: "σωτῆρες", Gen: "σωτήρων", Dat: "σωτῆρσι(ν)", Acc: "σωτῆρας" }
+        } 
+      } 
+    },
+    { greek: "τελειόω", english: "I complete, finish, make perfect", freq: 23, type: "verb", details: { principal_parts: ["τελειόω", "τελειώσω", "ἐτελείωσα", "τετελείωκα", "τετελείωμαι", "ἐτελειώθην"] } },
+    { greek: "δοκιμάζω", english: "I test, examine, prove", freq: 22, type: "verb", details: { principal_parts: ["δοκιμάζω", "δοκιμάσω", "ἐδοκίμασα", "δεδοκίμακα", "δεδοκίμασμαι", "ἐδοκιμάσθην"] } },
+    { greek: "θεάομαι", english: "I see, look at, behold, eye", freq: 22, type: "verb", details: { principal_parts: ["θεάομαι", "θεάσομαι", "ἐθεασάμην", "τεθέαμαι", "ἐθεάθην"] } },
+    { 
+      greek: "κοινωνία, ας, ἡ", english: "fellowship, communion, association", freq: 19, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "κοινωνία", Gen: "κοινωνίας", Dat: "κοινωνίᾳ", Acc: "κοινωνίαν" },
+          pl: { Nom: "κοινωνίαι", Gen: "κοινωνιῶν", Dat: "κοινωνίαις", Acc: "κοινωνίας" }
+        } 
+      } 
+    },
+    { 
+      greek: "παλαιός, ά, όν", english: "old", freq: 19, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern", 
+        cases: { 
+          sg: { Nom: "παλαιός, -ά, -όν", Gen: "παλαιοῦ, -ᾶς, -οῦ", Dat: "παλαιῷ, -ᾷ, -ῷ", Acc: "παλαιόν, -άν, -όν" },
+          pl: { Nom: "παλαιοί, -αί, -ά", Gen: "παλαιῶν, -ῶν, -ῶν", Dat: "παλαιοῖς, -αῖς, -οῖς", Acc: "παλαιούς, -άς, -ά" }
+        } 
+      } 
+    },
+    { 
+      greek: "τέλειος, α, ον", english: "perfect, complete, mature", freq: 19, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern", 
+        cases: { 
+          sg: { Nom: "τέλειος, -α, -ον", Gen: "τελείου, -ας, -ου", Dat: "τελείῳ, -ᾳ, -ῳ", Acc: "τέλειον, -αν, -ον" },
+          pl: { Nom: "τέλειοι, -αι, -α", Gen: "τελείων, -ων, -ων", Dat: "τελείοις, -αις, -οῖς", Acc: "τέλειους, -ας, -α" }
+        } 
+      } 
+    },
+    { greek: "ἀληθῶς", english: "truly, really, actually", freq: 18, type: "adverb", details: {} },
+    { 
+      greek: "φανερός, ά, όν", english: "visible, clear, plain, evident", freq: 18, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern", 
+        cases: { 
+          sg: { Nom: "φανερός, -ά, -όν", Gen: "φανεροῦ, -ᾶς, -οῦ", Dat: "φανερῷ, -ᾷ, -ῷ", Acc: "φανερόν, -άν, -όν" },
+          pl: { Nom: "φανεροί, -αί, -ά", Gen: "φανερῶν, -ῶν, -ῶν", Dat: "φανεροῖς, -αῖς, -οῖς", Acc: "φανερούς, -άς, -ά" }
+        } 
+      } 
+    },
+    { greek: "κλείω", english: "I shut, lock, bar, close", freq: 18, type: "verb", details: { principal_parts: ["κλείω", "κλείσω", "ἔκλεισα", "κέκλικα", "κέκλεισμαι", "ἐκλείσθην"] } },
+    { 
+      greek: "σκοτία, ας, ἡ", english: "darkness, gloom", freq: 16, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "σκοτία", Gen: "σκοτίας", Dat: "σκοτίᾳ", Acc: "σκοτίαν" },
+          pl: { Nom: "σκοτίαι", Gen: "σκοτιῶν", Dat: "σκοτίαις", Acc: "σκοτίας" }
+        } 
+      } 
+    },
+    { 
+      greek: "ἀνομία, ας, ἡ", english: "lawlessness, lawless deed", freq: 15, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "ἀνομία", Gen: "ἀνομίας", Dat: "ἀνομίᾳ", Acc: "ἀνομίαν" },
+          pl: { Nom: "ἀνομίαι", Gen: "ἀνομιῶν", Dat: "ἀνομίαις", Acc: "ἀνομίας" }
+        } 
+      } 
+    },
+    { greek: "ἐπαγγέλλομαι", english: "I promise, offer, profess", freq: 15, type: "verb", details: { principal_parts: ["ἐπαγγέλλομαι", "ἐπαγγελοῦμαι", "ἠπηγγειλάμην", "ἠπήγγελμαι"] } },
+    { greek: "ὅθεν", english: "from where, for which reason", freq: 15, type: "adverb", details: {} },
+    { 
+      greek: "σκάνδαλον, ου, τό", english: "trap, temptation, fault", freq: 15, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "σκάνδαλον", Gen: "σκανδάλου", Dat: "σκανδάλῳ", Acc: "σκάνδαλον" },
+          pl: { Nom: "σκάνδαλα", Gen: "σκανδάλων", Dat: "σκανδάλοις", Acc: "σκάνδαλα" }
+        } 
+      } 
+    },
+    { greek: "ἀναγγέλλω", english: "I report, disclose, announce, proclaim", freq: 14, type: "verb", details: { principal_parts: ["ἀναγγέλλω", "ἀναγγελῶ", "ἀνήγγειλα", "ἀνήγγηλκα", "ἀνήγγελμαι", "ἀνηγγέλθην"] } },
+    { 
+      greek: "διάνοια, ας, ἡ", english: "understanding, disposition, mind", freq: 14, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "διάνοια", Gen: "διανοίας", Dat: "διανοίᾳ", Acc: "διάνοιαν" },
+          pl: { Nom: "διάνοιαι", Gen: "διανοιῶν", Dat: "διανοίαις", Acc: "διανοίας" }
+        } 
+      } 
+    },
+    { greek: "μεταβαίνω", english: "I pass over, pass on", freq: 12, type: "verb", details: { principal_parts: ["μεταβαίνω", "μεταβήσομαι", "μετέβην", "μεταβέβηκα"] } },
+    { greek: "ψεύδομαι", english: "I lie", freq: 12, type: "verb", details: { principal_parts: ["ψεύδομαι", "ψεύσομαι", "ἐψευσάμην", "ἐψευσμαι"] } },
+    { 
+      greek: "εἴδωλον, ου, τό", english: "idol, image", freq: 11, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "εἴδωλον", Gen: "εἰδώλου", Dat: "εἰδώλῳ", Acc: "εἴδωλον" },
+          pl: { Nom: "εἴδωλα", Gen: "εἰδώλων", Dat: "εἰδώλοις", Acc: "εἴδωλα" }
+        } 
+      } 
+    },
+    { 
+      greek: "νεανίσκος, ου, ὁ", english: "youth, young man, servant", freq: 11, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "νεανίσκος", Gen: "νεανίσκου", Dat: "νεανίσκῳ", Acc: "νεανίσκον" },
+          pl: { Nom: "νεανίσκοι", Gen: "νεανίσκων", Dat: "νεανίσκοις", Acc: "νεανίσκους" }
+        } 
+      } 
+    },
+    { 
+      greek: "σπλάγχνον, ου, τό", english: "inward parts, entrails", freq: 11, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "σπλάγχνον", Gen: "σπλάγχνου", Dat: "σπλάγχνῳ", Acc: "σπλάγχνον" },
+          pl: { Nom: "σπλάγχνα", Gen: "σπλάγχνων", Dat: "σπλάγχνοις", Acc: "σπλάγχνα" }
+        } 
+      } 
+    },
+    { 
+      greek: "ψευδοπροφήτης, ou, ὁ", english: "false prophet", freq: 11, type: "noun", 
+      details: { 
+        declension: "1st Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "ψευδοπροφήτης", Gen: "ψευδοπροφήτου", Dat: "ψευδοπροφήτῃ", Acc: "ψευδοπροφήτην" },
+          pl: { Nom: "ψευδοπροφῆται", Gen: "ψευδοπροφητῶν", Dat: "ψευδοπροφήταις", Acc: "ψευδοπροφήτας" }
+        } 
+      } 
+    },
+    { 
+      greek: "βίος, ου, ὁ", english: "life, means of subsistence", freq: 10, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "βίος", Gen: "βίου", Dat: "βίῳ", Acc: "βίον" },
+          pl: { Nom: "βίοι", Gen: "βίων", Dat: "βίοις", Acc: "βίους" }
+        } 
+      } 
+    },
+    { greek: "παράγω", english: "I go away, bring in, pass by, disappear", freq: 10, type: "verb", details: { principal_parts: ["παράγω", "παράξω", "παρήγαγον", "παρήχα"] } },
+    { 
+      greek: "πλάνη, ης, ἡ", english: "error, deceit, deception", freq: 10, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "πλάνη", Gen: "πλάνης", Dat: "πλάνῃ", Acc: "πλάνην" },
+          pl: { Nom: "πλάναι", Gen: "πλανῶν", Dat: "πλάναις", Acc: "πλάνας" }
+        } 
+      } 
+    },
+    { greek: "σφάζω", english: "I slaughter", freq: 10, type: "verb", details: { principal_parts: ["σφάζω", "σφάξω", "ἔσφαξα", "ἐσφάγην"] } },
+    { 
+      greek: "ψεῦδος, ους, τό", english: "lie, falsehood", freq: 10, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "ψεῦδος", Gen: "ψεύδους", Dat: "ψεύδει", Acc: "ψεῦδος" },
+          pl: { Nom: "ψεύδη", Gen: "ψευδῶν", Dat: "ψεύδεσι(ν)", Acc: "ψεύδη" }
+        } 
+      } 
+    },
+    { 
+      greek: "ψεύστης, ου, ὁ", english: "liar", freq: 10, type: "noun", 
+      details: { 
+        declension: "1st Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "ψεύστης", Gen: "ψεύστου", Dat: "ψεύστῃ", Acc: "ψεύστην" },
+          pl: { Nom: "ψεῦσται", Gen: "ψευστῶν", Dat: "ψεύσταις", Acc: "ψεύστας" }
+        } 
+      } 
+    },
+    { 
+      greek: "μονογενής, ἐς", english: "only", freq: 9, type: "adjective", 
+      details: { 
+        declension: "3-3 Pattern", 
+        cases: { 
+          sg: { Nom: "μονογενής, -ές", Gen: "μονογενοῦς", Dat: "μονογενεῖ", Acc: "μονογενῆ, -ές" },
+          pl: { Nom: "μονογενεῖς, -ῆ", Gen: "μονογενῶν", Dat: "μονογενέσι(ν)", Acc: "μονογενεῖς, -ῆ" }
+        } 
+      } 
+    },
+    { greek: "χάριν", english: "on behalf of, on account of, for the sake of", freq: 9, type: "preposition", details: { case_meaning: "+ Genitive: for the sake of, on account of" } },
+    { 
+      greek: "ἀγνός, ή, όν", english: "pure, holy", freq: 8, type: "adjective", 
+      details: { 
+        declension: "2-1-2 Pattern", 
+        cases: { 
+          sg: { Nom: "ἀγνός, -ή, -όν", Gen: "ἀγνοῦ, -ῆς, -οῦ", Dat: "ἀγνῷ, -ῇ, -ῷ", Acc: "ἀγνόν, -ήν, -όν" },
+          pl: { Nom: "ἀγνοί, -αί, -ά", Gen: "ἀγνῶν, -ῶν, -ῶν", Dat: "ἀγνοῖς, -αῖς, -οῖς", Acc: "ἀγνούς, -άς, -ά" }
+        } 
+      } 
+    },
+    { 
+      greek: "τεκνίον, ου, τό", english: "little child, dear child", freq: 8, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "τεκνίον", Gen: "τεκνίου", Dat: "τεκνίῳ", Acc: "τεκνίον" },
+          pl: { Nom: "τεκνία", Gen: "τεκνίων", Dat: "τεκνίοις", Acc: "τεκνία" }
+        } 
+      } 
+    },
+    { greek: "ἀγνίζω", english: "I purify", freq: 7, type: "verb", details: { principal_parts: ["ἀγνίζω", "ἀγνιῶ", "ἤγνισα", "ἤγνικα", "ἤγνισμαι", "ἠγνίσθην"] } },
+    { greek: "ἡμέτερος, α, ον", english: "our", freq: 7, type: "pronoun / adjective", details: { declension: "2-1-2 Pattern", cases: { sg: { Nom: "ἡμέτερος, -α, -ον" }, pl: { Nom: "ἡμέτεροι, -αι, -α" } } } },
+    { greek: "ποταπός, ή, όν", english: "of what sort, of what kind", freq: 7, type: "adjective", details: { declension: "2-1-2 Pattern", cases: { sg: { Nom: "ποταπός, -ή, -όν" }, pl: { Nom: "ποταποί, -αί, -ά" } } } },
+    { greek: "βαρύς, εῖα, ύ", english: "heavy, severe, weighty, burdensome", freq: 6, type: "adjective", details: { declension: "3rd Declension Adjective", cases: { sg: { Nom: "βαρύς, βαρεῖα, βαρύ" }, pl: { Nom: "βαρεῖς, βαρεῖαι, βαρέα" } } } },
+    { greek: "πώποτε", english: "ever, at any time", freq: 6, type: "adverb", details: {} },
+    { greek: "αἰσχύνω", english: "I am ashamed, put to shame", freq: 6, type: "verb", details: { principal_parts: ["αἰσχύνω", "αἰσχυνῶ", "ἤσχυνα", "ἤσχυμμαι", "ἠσχύνθην"] } },
+    { 
+      greek: "ἀντίχριστος, ου, ὁ", english: "antichrist", freq: 5, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "ἀντίχριστος", Gen: "ἀντιχρίστου", Dat: "ἀντιχρίστῳ", Acc: "ἀντίχριστον" },
+          pl: { Nom: "ἀντίχριστοι", Gen: "ἀντιχρίστων", Dat: "ἀντιχρίστοις", Acc: "ἀντιχρίστους" }
+        } 
+      } 
+    },
+    { 
+      greek: "παράκλητος, ου, ὁ", english: "helper, mediator, intercessor", freq: 5, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "παράκλητος", Gen: "παρακλήτου", Dat: "παρακλήτῳ", Acc: "παράκλητον" },
+          pl: { Nom: "παράκλητοι", Gen: "παρακλήτων", Dat: "παρακλήτοις", Acc: "παρακλήτους" }
+        } 
+      } 
+    },
+    { greek: "ἀρεστός, ή, όν", english: "pleasing", freq: 5, type: "adjective", details: { declension: "2-1-2 Pattern", cases: { sg: { Nom: "ἀρεστός, -ή, -όν" }, pl: { Nom: "ἀρεστοί, -αί, -ά" } } } },
+    { greek: "ψηλαφάω", english: "I touch, handle", freq: 4, type: "verb", details: { principal_parts: ["ψηλαφάω", "ψηλαφήσω", "ἐψηλάφησα", "ἐψηλάφημαι", "ἐψηλαφήθην"] } },
+    { 
+      greek: "αἴτημα, ατος, τό", english: "request", freq: 4, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "αἴτημα", Gen: "αἰτήματος", Dat: "αἰτήματι", Acc: "αἴτημα" },
+          pl: { Nom: "αἰτήματα", Gen: "αἰτημάτων", Dat: "αἰτήμασι(ν)", Acc: "αἰτήματα" }
+        } 
+      } 
+    },
+    { 
+      greek: "ἀνθρωποκτόνος, ου, ὁ", english: "murderer", freq: 4, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "ἀνθρωποκτόνος", Gen: "ἀνθρωποκτόνου", Dat: "ἀνθρωποκτόνῳ", Acc: "ἀνθρωποκτόνον" },
+          pl: { Nom: "ἀνθρωποκτόνοι", Gen: "ἀνθρωποκτόνων", Dat: "ἀνθρωποκτόνοις", Acc: "ἀνθρωποκτόνους" }
+        } 
+      } 
+    },
+    { greek: "κάϊν, ὁ", english: "Cain", freq: 3, type: "proper noun", details: { declension: "Indeclinable / Proper Noun", cases: { sg: { Nom: "Κάϊν" } } } },
+    { greek: "καταγινώσκω", english: "I condemn, convict", freq: 3, type: "verb", details: { principal_parts: ["καταγινώσκω", "καταγνώσομαι", "κατέγνων", "κατέγνωκα", "κατεγνώσθην"] } },
+    { greek: "τυφλόω", english: "I make blind", freq: 3, type: "verb", details: { principal_parts: ["τυφλόω", "τυφλώσω", "ἐτύφλωσα", "τετύφλωκα", "τετύφλωμαι", "ἐτυφλώθην"] } },
+    { 
+      greek: "χρίσμα, ατος, τό", english: "anointing", freq: 3, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Neuter)", 
+        cases: { 
+          sg: { Nom: "χρίσμα", Gen: "χρίσματος", Dat: "χρίσματι", Acc: "χρίσμα" },
+          pl: { Nom: "χρίσματα", Gen: "χρισμάτων", Dat: "χρίσμασι(ν)", Acc: "χρίσματα" }
+        } 
+      } 
+    },
+    { 
+      greek: "ἀγγελία, ας, ἡ", english: "message", freq: 3, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "ἀγγελία", Gen: "ἀγγελίας", Dat: "ἀγγελίᾳ", Acc: "ἀγγελίαν" },
+          pl: { Nom: "ἀγγελίαι", Gen: "ἀγγελιῶν", Dat: "ἀγγελίαις", Acc: "ἀγγελίας" }
+        } 
+      } 
+    },
+    { 
+      greek: "ἀλαζονεία, ας, ἡ", english: "pretension, arrogance", freq: 3, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "ἀλαζονεία", Gen: "ἀλαζονείας", Dat: "ἀλαζονείᾳ", Acc: "ἀλαζονείαν" },
+          pl: { Nom: "ἀλαζονεῖαι", Gen: "ἀλαζονειῶν", Dat: "ἀλαζονείαις", Acc: "ἀλαζονείας" }
+        } 
+      } 
+    },
+    { 
+      greek: "ἱλασμός, οῦ, ὁ", english: "expiation, sin offering, atoning sacrifice", freq: 2, type: "noun", 
+      details: { 
+        declension: "2nd Declension (Masculine)", 
+        cases: { 
+          sg: { Nom: "ἱλασμός", Gen: "ἱλασμοῦ", Dat: "ἱλασμῷ", Acc: "ἱλασμόν" },
+          pl: { Nom: "ἱλασμοί", Gen: "ἱλασμῶν", Dat: "ἱλασμοῖς", Acc: "ἱλασμούς" }
+        } 
+      } 
+    },
+    { 
+      greek: "κόλασις, εως, ἡ", english: "punishment", freq: 2, type: "noun", 
+      details: { 
+        declension: "3rd Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "κόλασις", Gen: "κολάσεως", Dat: "κολάσει", Acc: "κόλασιν" },
+          pl: { Nom: "κολάσεις", Gen: "κολάσεων", Dat: "κολάσεσι(ν)", Acc: "κολάσεις" }
+        } 
+      } 
+    },
+    { 
+      greek: "νίκη, ης, ἡ", english: "victory", freq: 1, type: "noun", 
+      details: { 
+        declension: "1st Declension (Feminine)", 
+        cases: { 
+          sg: { Nom: "νίκη", Gen: "νίκης", Dat: "νίκῃ", Acc: "νίκην" },
+          pl: { Nom: "νῖκαι", Gen: "νικῶν", Dat: "νίκαις", Acc: "νίκας" }
+        } 
+      } 
+    }
+  ];
+
+  let currentPool = [];
+  let missedWords = [];
+  let currentIndex = 0;
+  let score = 0;
+
+  document.getElementById('answer-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      if (document.getElementById('feedback-area').classList.contains('hidden')) {
+        checkAnswer();
+      } else {
+        nextWord();
+      }
+    }
+  });
+
+  function startQuiz(retryErrors = false) {
+    if (retryErrors) {
+      currentPool = [...missedWords];
+    } else {
+      const minF = parseInt(document.getElementById('min-freq').value) || 1;
+      const maxF = parseInt(document.getElementById('max-freq').value) || 49;
+      
+      currentPool = VOCABULARY.filter(w => w.freq >= minF && w.freq <= maxF);
+      
+      if (currentPool.length === 0) {
+        alert("No words found in that frequency range!");
+        return;
+      }
+    }
+
+    currentPool.sort(() => Math.random() - 0.5);
+    
+    missedWords = [];
+    currentIndex = 0;
+    score = 0;
+
+    showScreen('quiz-screen');
+    loadWord();
+  }
+
+  function loadWord() {
+    if (currentIndex >= currentPool.length) {
+      showResults();
+      return;
+    }
+
+    const word = currentPool[currentIndex];
+    
+    document.getElementById('progress-text').innerText = `Word ${currentIndex + 1} of ${currentPool.length}`;
+    document.getElementById('freq-text').innerText = `NT Freq: ${word.freq}`;
+    
+    const displayEl = document.getElementById('greek-display');
+    displayEl.innerText = (word.greek || "").normalize('NFC');
+    
+    const input = document.getElementById('answer-input');
+    input.value = '';
+    input.disabled = false;
+    input.focus();
+
+    document.getElementById('feedback-area').classList.add('hidden');
+    document.getElementById('submit-btn').classList.remove('hidden');
+    document.getElementById('details-box').classList.add('hidden');
+    document.getElementById('detail-btn').innerText = "Show Grammar Details";
+  }
+
+  function checkAnswer() {
+    const userInput = document.getElementById('answer-input').value.trim().toLowerCase();
+    if (!userInput) return;
+
+    const word = currentPool[currentIndex];
+    const validGloss = word.english.toLowerCase().split(',').map(s => s.trim());
+    
+    const cleanInput = userInput.replace(/^(i\s+|to\s+)/, '');
+    
+    // Strict validation logic:
+    // Requires exact match OR length >= 3 for sub-word matching to prevent single-letter false positives
+    const isCorrect = validGloss.some(g => {
+      const cleanG = g.replace(/^(i\s+|to\s+)/, '');
+      if (cleanInput === cleanG) return true;
+      if (cleanInput.length >= 3 && cleanG.includes(cleanInput)) return true;
+      return false;
+    });
+
+    const card = document.getElementById('feedback-card');
+    const status = document.getElementById('result-status');
+    const ans = document.getElementById('correct-ans');
+
+    if (isCorrect) {
+      score++;
+      card.className = "feedback-card correct";
+      status.innerText = "✓ Correct!";
+    } else {
+      missedWords.push(word);
+      card.className = "feedback-card incorrect";
+      status.innerText = "✗ Incorrect";
+    }
+
+    ans.innerText = `Definition: ${word.english}`;
+    
+    document.getElementById('answer-input').disabled = true;
+    document.getElementById('submit-btn').classList.add('hidden');
+    document.getElementById('feedback-area').classList.remove('hidden');
+
+    renderGrammarDetails(word);
+  }
+
+  function renderGrammarDetails(word) {
+    const box = document.getElementById('details-box');
+    let html = `<h4>Part of Speech: ${word.type.toUpperCase()}</h4>`;
+
+    if (word.type === "verb" && word.details.principal_parts) {
+      const labels = ["1st (Present)", "2nd (Future)", "3rd (Aorist Act)", "4th (Perf Act)", "5th (Perf Mid/Pass)", "6th (Aor Pass)"];
+      html += `<p><strong>6 Principal Parts Paradigm:</strong></p>`;
+      html += `<table class="paradigm-table"><tr><th>Tense / Voice</th><th>Form</th></tr>`;
+      word.details.principal_parts.forEach((part, idx) => {
+        html += `<tr><td>${labels[idx] || 'Part ' + (idx+1)}</td><td><strong>${part}</strong></td></tr>`;
+      });
+      html += `</table>`;
+    } 
+    else if (["noun", "adjective", "pronoun", "adjective / noun", "proper noun", "pronoun / adjective"].includes(word.type)) {
+      html += `<p><strong>Declension Pattern:</strong> ${word.details.declension || 'N/A'}</p>`;
+      if (word.details.cases) {
+        const hasPlural = word.details.cases.pl !== undefined;
+        html += `<p style="margin-top:8px;"><strong>Case Paradigm:</strong></p>`;
+        html += `<table class="paradigm-table"><tr><th>Case</th><th>Singular</th>${hasPlural ? '<th>Plural</th>' : ''}</tr>`;
+        
+        const casesList = ["Nom", "Gen", "Dat", "Acc"];
+        casesList.forEach(c => {
+          if (word.details.cases.sg && word.details.cases.sg[c]) {
+            html += `<tr><td><strong>${c}.</strong></td><td>${word.details.cases.sg[c]}</td>`;
+            if (hasPlural) {
+              html += `<td>${word.details.cases.pl[c] || '-'}</td>`;
+            }
+            html += `</tr>`;
+          }
+        });
+        html += `</table>`;
+      }
+    } 
+    else if (word.type === "preposition") {
+      html += `<p><strong>Usage & Syntax:</strong> ${word.details.case_meaning || 'N/A'}</p>`;
+    } else {
+      html += `<p>Standard uninflected grammatical form.</p>`;
+    }
+
+    box.innerHTML = html;
+  }
+
+  function toggleDetails() {
+    const box = document.getElementById('details-box');
+    const btn = document.getElementById('detail-btn');
+    if (box.classList.contains('hidden')) {
+      box.classList.remove('hidden');
+      btn.innerText = "Hide Grammar Details";
+    } else {
+      box.classList.add('hidden');
+      btn.innerText = "Show Grammar Details";
+    }
+  }
+
+  function nextWord() {
+    currentIndex++;
+    loadWord();
+  }
+
+  function togglePause() {
+    const overlay = document.getElementById('pause-overlay');
+    overlay.classList.toggle('hidden');
+  }
+
+  function restartToMenu() {
+    document.getElementById('pause-overlay').classList.add('hidden');
+    showScreen('config-screen');
+  }
+
+  function showResults() {
+    showScreen('results-screen');
+    document.getElementById('final-score').innerText = `${score} / ${currentPool.length}`;
+
+    const retryBtn = document.getElementById('retry-errors-btn');
+    const summary = document.getElementById('error-summary');
+
+    if (missedWords.length > 0) {
+      summary.innerText = `You missed ${missedWords.length} word(s).`;
+      retryBtn.classList.remove('hidden');
+      retryBtn.innerText = `Practice ${missedWords.length} Missed Word(s) ↻`;
+    } else {
+      summary.innerText = "Perfect score! Outstanding job.";
+      retryBtn.classList.add('hidden');
+    }
+  }
+
+  function showScreen(id) {
+    ['config-screen', 'quiz-screen', 'results-screen'].forEach(s => {
+      document.getElementById(s).classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+  }
+</script>
+
+</body>
+</html>
